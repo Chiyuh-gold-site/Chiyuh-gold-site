@@ -57,7 +57,6 @@
   <div class="container">
     <h1 class="text-center mb-4">錡宇黃金白銀二手交易網</h1>
 
-    <!-- 金價 widget（K 線圖） -->
     <div class="mb-4">
       <h4 class="mb-3">📉 黃金即時K線圖</h4>
       <div class="tradingview-widget-container">
@@ -85,13 +84,11 @@
       </div>
     </div>
 
-    <!-- 商品展示區 -->
     <div class="mb-3">
       <input type="text" id="search-box" class="form-control" placeholder="🔍 搜尋商品" />
     </div>
     <div class="row row-cols-2 row-cols-md-3 g-4" id="product-list"></div>
 
-    <!-- 您已瀏覽過的商品 -->
     <div class="mt-5">
       <h3>您已瀏覽過的商品</h3>
       <div class="viewed-products" id="viewed-products"></div>
@@ -106,8 +103,23 @@
         const viewedContainer = document.getElementById('viewed-products');
 
         products.slice(0, 9).forEach((p) => {
-          const imagePath = `images/${p.id}.jpg`;
+          const extensions = ['.jpg', '.jpeg', '.png', '.webp'];
+          let imagePath = '';
 
+          for (const ext of extensions) {
+            const testPath = `images/${p.id}${ext}`;
+            const img = new Image();
+            img.src = testPath;
+            img.onload = () => {
+              if (!imagePath) {
+                imagePath = testPath;
+                renderProduct(p, imagePath);
+              }
+            };
+          }
+        });
+
+        function renderProduct(p, imagePath) {
           productContainer.innerHTML += `
             <div class="col">
               <div class="card">
@@ -127,7 +139,7 @@
                 <h6 class="card-title">${p.name}</h6>
               </div>
             </div>`;
-        });
+        }
 
         const searchBox = document.getElementById('search-box');
         searchBox.addEventListener('input', function () {
