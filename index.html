@@ -106,10 +106,12 @@
         const viewedContainer = document.getElementById('viewed-products');
 
         products.slice(0, 9).forEach((p) => {
+          const imagePath = `images/${p.id}.jpg`;
+
           productContainer.innerHTML += `
             <div class="col">
               <div class="card">
-                <img src="${p.img}" class="card-img-top" alt="${p.name}" />
+                <img src="${imagePath}" class="card-img-top" alt="${p.name}" />
                 <div class="card-body">
                   <h5 class="card-title">${p.name}</h5>
                   <p class="card-text">${p.price}</p>
@@ -120,7 +122,7 @@
 
           viewedContainer.innerHTML += `
             <div class="card">
-              <img src="${p.img}" class="card-img-top" alt="${p.name}" />
+              <img src="${imagePath}" class="card-img-top" alt="${p.name}" />
               <div class="card-body">
                 <h6 class="card-title">${p.name}</h6>
               </div>
