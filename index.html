@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -8,20 +9,33 @@
   <style>
     body {
       padding-top: 4rem;
+      background-color: #fff;
+      color: #333;
     }
     .card img {
       width: 100%;
       height: 200px;
       object-fit: cover;
     }
-    @media (prefers-color-scheme: dark) {
-      body {
-        background-color: #121212;
-        color: white;
-      }
-      .card {
-        background-color: #1e1e1e;
-      }
+    .card {
+      background-color: #fff;
+      color: #333;
+    }
+    .card-body {
+      color: #333;
+    }
+    .card-body .card-title,
+    .card-body .card-text,
+    .card-body .text-muted {
+      color: #333 !important;
+    }
+    .form-control {
+      background-color: #fff;
+      color: #333;
+      border-color: #ccc;
+    }
+    .form-control::placeholder {
+      color: #888;
     }
     .viewed-products {
       display: flex;
@@ -55,7 +69,7 @@
             "symbol": "TVC:GOLD",
             "interval": "D",
             "timezone": "Asia/Taipei",
-            "theme": "dark",
+            "theme": "light",
             "style": "1",
             "locale": "zh_TW",
             "toolbar_bg": "#f1f3f6",
@@ -84,49 +98,44 @@
   </div>
 
   <script>
-    const products = [
-      { id: 'G001', name: '9999純金條塊1兩', price: 'NT$12,345', img: 'https://cdn.truney.com/uploads/product/image/12255/medium_1671602881-9999-1oz-gold-bar-bullionstar.jpg' },
-      { id: 'G002', name: '9999純金條塊5兩', price: 'NT$61,234', img: 'https://cdn.truney.com/uploads/product/image/10092/medium_1640326957-5oz-gold-bar.jpg' },
-      { id: 'G003', name: '9999純金條塊10兩', price: 'NT$123,456', img: 'https://cdn.truney.com/uploads/product/image/12256/medium_1671602947-10oz-gold-bar.jpg' },
-      { id: 'G004', name: '瑞士PAMP鑄金條1兩', price: 'NT$13,800', img: 'https://cdn.truney.com/uploads/product/image/10103/medium_1640327026-pamp-gold-bar.jpg' },
-      { id: 'G005', name: '龍年賀歲金條', price: 'NT$16,800', img: 'https://cdn.truney.com/uploads/product/image/13559/medium_1704261509-2024-pamp-gold-bar-lunar-dragon.jpg' },
-      { id: 'G006', name: '金條禮盒套組', price: 'NT$38,000', img: 'https://cdn.truney.com/uploads/product/image/13237/medium_1699959862-gold-gift-box.jpg' },
-    ];
+    fetch('https://sheetdb.io/api/v1/h86llkg4yl2d2')
+      .then(response => response.json())
+      .then(products => {
+        const productContainer = document.getElementById('product-list');
+        const viewedContainer = document.getElementById('viewed-products');
 
-    const productContainer = document.getElementById('product-list');
-    const viewedContainer = document.getElementById('viewed-products');
+        products.forEach((p) => {
+          productContainer.innerHTML += `
+            <div class="col-md-4 col-6 mb-4">
+              <div class="card">
+                <img src="${p.img}" class="card-img-top" alt="${p.name}" />
+                <div class="card-body">
+                  <h5 class="card-title">${p.name}</h5>
+                  <p class="card-text">${p.price}</p>
+                  <p class="card-text text-muted">編號：${p.id}</p>
+                </div>
+              </div>
+            </div>`;
 
-    products.forEach((p) => {
-      productContainer.innerHTML += `
-        <div class="col-md-4 col-6 mb-4">
-          <div class="card">
-            <img src="${p.img}" class="card-img-top" alt="${p.name}" />
-            <div class="card-body">
-              <h5 class="card-title">${p.name}</h5>
-              <p class="card-text">${p.price}</p>
-              <p class="card-text text-muted">編號：${p.id}</p>
-            </div>
-          </div>
-        </div>`;
-      viewedContainer.innerHTML += `
-        <div class="card">
-          <img src="${p.img}" class="card-img-top" alt="${p.name}" />
-          <div class="card-body">
-            <h6 class="card-title">${p.name}</h6>
-          </div>
-        </div>`;
-    });
+          viewedContainer.innerHTML += `
+            <div class="card">
+              <img src="${p.img}" class="card-img-top" alt="${p.name}" />
+              <div class="card-body">
+                <h6 class="card-title">${p.name}</h6>
+              </div>
+            </div>`;
+        });
 
-    // 即時搜尋功能
-    const searchBox = document.getElementById('search-box');
-    searchBox.addEventListener('input', function () {
-      const keyword = this.value;
-      const cards = productContainer.querySelectorAll('.card');
-      cards.forEach((card) => {
-        const title = card.querySelector('.card-title').textContent;
-        card.parentElement.style.display = title.includes(keyword) ? '' : 'none';
+        const searchBox = document.getElementById('search-box');
+        searchBox.addEventListener('input', function () {
+          const keyword = this.value.toLowerCase();
+          const cards = productContainer.querySelectorAll('.card');
+          cards.forEach((card) => {
+            const title = card.querySelector('.card-title').textContent.toLowerCase();
+            card.parentElement.style.display = title.includes(keyword) ? '' : 'none';
+          });
+        });
       });
-    });
   </script>
 
   <hr class="mt-5">
