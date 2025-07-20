@@ -1,49 +1,78 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我要售出商品</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>出售商品表單 - 錡宇黃金白銀二手交易網</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      padding-top: 4rem;
+      background-color: #fff;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+    }
+    .form-label {
+      font-weight: bold;
+    }
+    .form-control::placeholder {
+      color: #888;
+    }
+    .form-section {
+      margin-bottom: 1.5rem;
+    }
+    .btn-submit {
+      background-color: #dc3545;
+      color: white;
+      font-weight: bold;
+    }
+    .btn-submit:hover {
+      background-color: #c82333;
+    }
+  </style>
 </head>
 <body>
-  <div class="container py-5">
-    <h2 class="mb-4 text-center">📮 我要售出商品</h2>
-    <form action="https://formsubmit.co/chiyuhgold@gmail.com" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="_next" value="https://splendid-haupia-2ae8fe.netlify.app/thankyou.html">
-      <input type="hidden" name="_subject" value="販售商品表單來信">
-      <input type="hidden" name="_captcha" value="false">
-
-      <div class="mb-3">
+  <div class="container">
+    <h2 class="text-center mb-4">我要售出商品</h2>
+    <form id="sellForm">
+      <div class="form-section">
         <label for="name" class="form-label">*姓名 ( 使用真名將更能增加信任 )</label>
-        <input type="text" class="form-control" id="name" name="姓名" required>
+        <input type="text" class="form-control" id="name" name="name" required />
       </div>
-
-      <div class="mb-3">
+      <div class="form-section">
         <label for="contact" class="form-label">*聯繫方式 ( 手機/Line/Messenger )</label>
-        <input type="text" class="form-control" id="contact" name="聯繫方式" required>
+        <input type="text" class="form-control" id="contact" name="contact" required />
       </div>
-
-      <div class="mb-3">
+      <div class="form-section">
         <label for="product" class="form-label">*商品名稱 (鑄造廠-品名-金/銀-重量 )</label>
-        <input type="text" class="form-control" id="product" name="商品名稱" required>
+        <input type="text" class="form-control" id="product" name="product" required />
       </div>
-
-      <div class="mb-3">
+      <div class="form-section">
         <label class="form-label">新增照片 ( 需正反面各一張/最多四張 )</label>
-        <input class="form-control mb-2" type="file" name="照片1" accept="image/*">
-        <input class="form-control mb-2" type="file" name="照片2" accept="image/*">
-        <input class="form-control mb-2" type="file" name="照片3" accept="image/*">
-        <input class="form-control mb-2" type="file" name="照片4" accept="image/*">
+        <input type="file" class="form-control mb-2" name="photo1" accept="image/*" required />
+        <input type="file" class="form-control mb-2" name="photo2" accept="image/*" required />
       </div>
-
-      <div class="mb-3">
+      <div class="form-section">
         <label for="message" class="form-label">備註／留言</label>
-        <textarea class="form-control" id="message" name="備註" rows="4"></textarea>
+        <textarea class="form-control" id="message" name="message" rows="4"></textarea>
       </div>
-
-      <button type="submit" class="btn btn-danger w-100">送出</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-submit">送出</button>
+      </div>
     </form>
+    <div id="submitMessage" class="mt-4 text-success text-center fw-bold d-none">
+      表單已成功送出，我們將盡快與您聯繫！
+    </div>
   </div>
+
+  <script>
+    document.getElementById('sellForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      document.getElementById('sellForm').classList.add('d-none');
+      document.getElementById('submitMessage').classList.remove('d-none');
+    });
+  </script>
 </body>
 </html>
