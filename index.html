@@ -43,7 +43,7 @@
       gap: 1rem;
     }
     .viewed-products .card {
-      min-width: calc(100% / 3 - 1rem);
+      min-width: calc(100% / 2 - 1rem);
     }
     @media (min-width: 768px) {
       .viewed-products .card {
@@ -88,7 +88,7 @@
     <div class="mb-3">
       <input type="text" id="search-box" class="form-control" placeholder="🔍 搜尋商品" />
     </div>
-    <div class="row" id="product-list"></div>
+    <div class="row row-cols-2 row-cols-md-3 g-4" id="product-list"></div>
 
     <!-- 您已瀏覽過的商品 -->
     <div class="mt-5">
@@ -104,9 +104,9 @@
         const productContainer = document.getElementById('product-list');
         const viewedContainer = document.getElementById('viewed-products');
 
-        products.forEach((p) => {
+        products.slice(0, 9).forEach((p) => {
           productContainer.innerHTML += `
-            <div class="col-md-4 col-6 mb-4">
+            <div class="col">
               <div class="card">
                 <img src="${p.img}" class="card-img-top" alt="${p.name}" />
                 <div class="card-body">
@@ -132,7 +132,7 @@
           const cards = productContainer.querySelectorAll('.card');
           cards.forEach((card) => {
             const title = card.querySelector('.card-title').textContent.toLowerCase();
-            card.parentElement.style.display = title.includes(keyword) ? '' : 'none';
+            card.closest('.col').style.display = title.includes(keyword) ? '' : 'none';
           });
         });
       });
