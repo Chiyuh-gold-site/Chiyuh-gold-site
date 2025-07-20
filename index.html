@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -57,6 +58,7 @@
   <div class="container">
     <h1 class="text-center mb-4">錡宇黃金白銀二手交易網</h1>
 
+    <!-- 金價 widget（K 線圖） -->
     <div class="mb-4">
       <h4 class="mb-3">📉 黃金即時K線圖</h4>
       <div class="tradingview-widget-container">
@@ -84,11 +86,13 @@
       </div>
     </div>
 
+    <!-- 商品展示區 -->
     <div class="mb-3">
       <input type="text" id="search-box" class="form-control" placeholder="🔍 搜尋商品" />
     </div>
     <div class="row row-cols-2 row-cols-md-3 g-4" id="product-list"></div>
 
+    <!-- 您已瀏覽過的商品 -->
     <div class="mt-5">
       <h3>您已瀏覽過的商品</h3>
       <div class="viewed-products" id="viewed-products"></div>
@@ -102,22 +106,31 @@
         const productContainer = document.getElementById('product-list');
         const viewedContainer = document.getElementById('viewed-products');
 
-        products.slice(0, 9).forEach((p) => {
-          const extensions = ['.jpg', '.jpeg', '.png', '.webp'];
-          let imagePath = '';
+        const extensions = ['.jpg', '.jpeg', '.png', '.webp'];
 
-          for (const ext of extensions) {
-            const testPath = `images/${p.id}${ext}`;
+        async function checkImageExists(url) {
+          return new Promise((resolve) => {
             const img = new Image();
-            img.src = testPath;
-            img.onload = () => {
-              if (!imagePath) {
+            img.onload = () => resolve(true);
+            img.onerror = () => resolve(false);
+            img.src = url;
+          });
+        }
+
+        async function loadProducts() {
+          for (const p of products.slice(0, 9)) {
+            let imagePath = '';
+            for (const ext of extensions) {
+              const testPath = `images/${p.id}${ext}`;
+              const exists = await checkImageExists(testPath);
+              if (exists) {
                 imagePath = testPath;
-                renderProduct(p, imagePath);
+                break;
               }
-            };
+            }
+            if (imagePath) renderProduct(p, imagePath);
           }
-        });
+        }
 
         function renderProduct(p, imagePath) {
           productContainer.innerHTML += `
@@ -140,6 +153,8 @@
               </div>
             </div>`;
         }
+
+        loadProducts();
 
         const searchBox = document.getElementById('search-box');
         searchBox.addEventListener('input', function () {
