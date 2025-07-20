@@ -71,6 +71,9 @@
     </div>
 
     <!-- 商品展示區 -->
+    <div class="mb-3">
+      <input type="text" id="search-box" class="form-control" placeholder="🔍 搜尋商品" />
+    </div>
     <div class="row" id="product-list"></div>
 
     <!-- 您已瀏覽過的商品 -->
@@ -81,21 +84,19 @@
   </div>
 
   <script>
-    // 假資料展示用
     const products = [
-      { id: 'A001', name: '黃金戒指', price: 'NT$38,000', img: 'https://via.placeholder.com/300x200?text=Gold+Ring' },
-      { id: 'A002', name: '銀項鍊', price: 'NT$4,800', img: 'https://via.placeholder.com/300x200?text=Silver+Necklace' },
-      { id: 'A003', name: '金幣收藏', price: 'NT$65,000', img: 'https://via.placeholder.com/300x200?text=Gold+Coin' },
-      { id: 'A004', name: '黃金手鍊', price: 'NT$22,500', img: 'https://via.placeholder.com/300x200?text=Gold+Bracelet' },
-      { id: 'A005', name: '銀手環', price: 'NT$3,200', img: 'https://via.placeholder.com/300x200?text=Silver+Bangle' },
-      { id: 'A006', name: '金條', price: 'NT$120,000', img: 'https://via.placeholder.com/300x200?text=Gold+Bar' },
+      { id: 'G001', name: '9999純金條塊1兩', price: 'NT$12,345', img: 'https://cdn.truney.com/uploads/product/image/12255/medium_1671602881-9999-1oz-gold-bar-bullionstar.jpg' },
+      { id: 'G002', name: '9999純金條塊5兩', price: 'NT$61,234', img: 'https://cdn.truney.com/uploads/product/image/10092/medium_1640326957-5oz-gold-bar.jpg' },
+      { id: 'G003', name: '9999純金條塊10兩', price: 'NT$123,456', img: 'https://cdn.truney.com/uploads/product/image/12256/medium_1671602947-10oz-gold-bar.jpg' },
+      { id: 'G004', name: '瑞士PAMP鑄金條1兩', price: 'NT$13,800', img: 'https://cdn.truney.com/uploads/product/image/10103/medium_1640327026-pamp-gold-bar.jpg' },
+      { id: 'G005', name: '龍年賀歲金條', price: 'NT$16,800', img: 'https://cdn.truney.com/uploads/product/image/13559/medium_1704261509-2024-pamp-gold-bar-lunar-dragon.jpg' },
+      { id: 'G006', name: '金條禮盒套組', price: 'NT$38,000', img: 'https://cdn.truney.com/uploads/product/image/13237/medium_1699959862-gold-gift-box.jpg' },
     ];
 
     const productContainer = document.getElementById('product-list');
     const viewedContainer = document.getElementById('viewed-products');
 
     products.forEach((p) => {
-      // 插入商品展示區
       productContainer.innerHTML += `
         <div class="col-md-4 col-6 mb-4">
           <div class="card">
@@ -107,8 +108,6 @@
             </div>
           </div>
         </div>`;
-
-      // 預設瀏覽過的商品
       viewedContainer.innerHTML += `
         <div class="card">
           <img src="${p.img}" class="card-img-top" alt="${p.name}" />
@@ -117,6 +116,22 @@
           </div>
         </div>`;
     });
+
+    // 即時搜尋功能
+    const searchBox = document.getElementById('search-box');
+    searchBox.addEventListener('input', function () {
+      const keyword = this.value;
+      const cards = productContainer.querySelectorAll('.card');
+      cards.forEach((card) => {
+        const title = card.querySelector('.card-title').textContent;
+        card.parentElement.style.display = title.includes(keyword) ? '' : 'none';
+      });
+    });
   </script>
+
+  <hr class="mt-5">
+  <div class="container text-end text-muted small pb-3">
+    2025錡宇科技版權所有
+  </div>
 </body>
 </html>
