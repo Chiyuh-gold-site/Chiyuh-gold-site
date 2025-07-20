@@ -36,7 +36,7 @@
 <body>
   <div class="container">
     <h2 class="text-center mb-4">我要售出商品</h2>
-    <form id="sellForm">
+    <form id="sellForm" action="https://formsubmit.co/chiyuhgold@gmail.com" method="POST" enctype="multipart/form-data">
       <div class="form-section">
         <label for="name" class="form-label">*姓名 ( 使用真名將更能增加信任 )</label>
         <input type="text" class="form-control" id="name" name="name" required />
@@ -45,19 +45,28 @@
         <label for="contact" class="form-label">*聯繫方式 ( 手機/Line/Messenger )</label>
         <input type="text" class="form-control" id="contact" name="contact" required />
       </div>
+
       <div class="form-section">
         <label for="product" class="form-label">*商品名稱 (鑄造廠-品名-金/銀-重量 )</label>
         <input type="text" class="form-control" id="product" name="product" required />
       </div>
       <div class="form-section">
-        <label class="form-label">新增照片 ( 需正反面各一張/最多四張 )</label>
+        <label for="price" class="form-label">*售價</label>
+        <input type="text" class="form-control" id="price" name="price" required />
+      </div>
+      <div class="form-section">
+        <label class="form-label">*商品照 ( 需正反面各一張/最多四張 )</label>
         <input type="file" class="form-control mb-2" name="photo1" accept="image/*" required />
         <input type="file" class="form-control mb-2" name="photo2" accept="image/*" required />
+        <input type="file" class="form-control mb-2" name="photo3" accept="image/*" />
+        <input type="file" class="form-control mb-2" name="photo4" accept="image/*" />
       </div>
       <div class="form-section">
         <label for="message" class="form-label">備註／留言</label>
         <textarea class="form-control" id="message" name="message" rows="4"></textarea>
       </div>
+      <input type="hidden" name="_next" value="https://splendid-haupia-2ae8fe.netlify.app/sell.html" />
+      <input type="hidden" name="_captcha" value="false" />
       <div class="text-center">
         <button type="submit" class="btn btn-submit">送出</button>
       </div>
@@ -66,13 +75,5 @@
       表單已成功送出，我們將盡快與您聯繫！
     </div>
   </div>
-
-  <script>
-    document.getElementById('sellForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      document.getElementById('sellForm').classList.add('d-none');
-      document.getElementById('submitMessage').classList.remove('d-none');
-    });
-  </script>
 </body>
 </html>
